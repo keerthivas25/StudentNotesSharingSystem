@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% block title %}Upload Notes - Student Notes Sharing System{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1 class="page-title">Upload Study Materials</h1>
+        <p class="page-subtitle">Share your lecture notes, lab records, and presentations with fellow students.</p>
+    </div>
+</section>
+
+<section class="form-section">
+    <div class="container">
+        <div class="form-card">
+            <form action="{{ url_for('upload_notes') }}" method="POST" enctype="multipart/form-data" id="upload-form">
+                
+                <!-- Student Name -->
+                <div class="form-group">
+                    <label for="student_name" class="form-label">
+                        Student Name <span class="required">*</span>
+                    </label>
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        id="student_name" 
+                        name="student_name" 
+                        placeholder="e.g. Keerthivas" 
+                        required 
+                        maxlength="100"
+                    >
+                    <small class="form-text">Enter your full name or student ID.</small>
+                </div>
+
+                <!-- Note Title -->
+                <div class="form-group">
+                    <label for="title" class="form-label">
+                        Note Title <span class="required">*</span>
+                    </label>
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        id="title" 
+                        name="title" 
+                        placeholder="e.g. Machine Learning Unit 1 - Supervised Learning" 
+                        required 
+                        maxlength="255"
+                    >
+                </div>
+
+                <!-- Subject -->
+                <div class="form-group">
+                    <label for="subject" class="form-label">
+                        Subject <span class="required">*</span>
+                    </label>
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        id="subject" 
+                        name="subject" 
+                        placeholder="e.g. Machine Learning, DBMS, Computer Networks" 
+                        required 
+                        maxlength="100"
+                    >
+                    <small class="form-text">Specify the course name or subject code.</small>
+                </div>
+
+                <!-- Description -->
+                <div class="form-group">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea 
+                        class="form-control" 
+                        id="description" 
+                        name="description" 
+                        rows="3" 
+                        placeholder="Brief summary of topics covered in these notes..."
+                    ></textarea>
+                </div>
+
+                <!-- File Upload -->
+                <div class="form-group">
+                    <label for="file" class="form-label">
+                        Choose File <span class="required">*</span>
+                    </label>
+                    
+                    <div class="file-drop-zone" id="drop-zone">
+                        <input 
+                            type="file" 
+                            name="file" 
+                            id="file" 
+                            class="file-input" 
+                            required 
+                            accept=".pdf,.ppt,.pptx,.doc,.docx,.txt,.csv"
+                        >
+                        <div class="drop-zone-content">
+                            <span class="drop-icon">📁</span>
+                            <p class="drop-text" id="file-label">Drag & drop your study file here or <span class="browse-link">browse</span></p>
+                            <p class="file-details" id="file-details"></p>
+                        </div>
+                    </div>
+
+                    <div class="format-chips">
+                        <span class="format-label">Supported formats:</span>
+                        {% for ext in allowed_extensions %}
+                            <span class="chip">{{ ext | upper }}</span>
+                        {% endfor %}
+                    </div>
+                    <small class="form-text">Maximum file size: 25 MB. File is uploaded directly to Amazon S3.</small>
+                </div>
+
+                <!-- Form Submit Button -->
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary btn-block" id="btn-submit-upload">
+                        <span>🚀</span> Upload Notes
+                    </button>
+                    <a href="{{ url_for('view_notes') }}" class="btn btn-outline btn-block">Cancel</a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

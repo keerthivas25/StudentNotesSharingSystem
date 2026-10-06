@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - Student Notes Sharing System{% endblock %}
+
+{% block content %}
+<section class="hero-section">
+    <div class="container hero-container">
+        <div class="hero-content">
+            <span class="hero-badge">Cloud-Powered Academic Portal</span>
+            <h1 class="hero-title">Student Notes Sharing System</h1>
+            <p class="hero-subtitle">Upload, manage and download study materials.</p>
+            <p class="hero-description">
+                A centralized platform for college students to share lecture notes, presentations, 
+                question banks, and lab manuals securely powered by Amazon Web Services.
+            </p>
+            <div class="hero-actions">
+                <a href="{{ url_for('upload_notes') }}" class="btn btn-primary" id="btn-hero-upload">
+                    <span>📤</span> Upload Notes
+                </a>
+                <a href="{{ url_for('view_notes') }}" class="btn btn-secondary" id="btn-hero-view">
+                    <span>📖</span> View Notes
+                </a>
+            </div>
+        </div>
+        <div class="hero-stats-card">
+            <h3 class="stats-card-title">Repository Overview</h3>
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-number">{{ stats.total_notes }}</div>
+                    <div class="stat-label">Total Notes</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">{{ stats.total_subjects }}</div>
+                    <div class="stat-label">Subjects</div>
+                </div>
+            </div>
+            
+            {% if stats.recent_notes %}
+                <div class="recent-preview">
+                    <h4>Recently Added</h4>
+                    <ul class="recent-list">
+                        {% for note in stats.recent_notes %}
+                            <li class="recent-item">
+                                <span class="recent-subj-pill">{{ note.subject }}</span>
+                                <span class="recent-title">{{ note.title }}</span>
+                                <span class="recent-author">by {{ note.student_name }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<section class="features-section">
+    <div class="container">
+        <h2 class="section-title">Why Cloud-Based Notes Sharing?</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">☁️</div>
+                <h3>Amazon S3 Storage</h3>
+                <p>Study materials such as PDFs, DOCX, and PPT files are durably stored in Amazon Simple Storage Service.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🗄️</div>
+                <h3>MySQL / RDS Metadata</h3>
+                <p>Fast indexing of student names, course subjects, and timestamps stored securely in an isolated database tier.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3>Secure Cloud Access</h3>
+                <p>Private subnets and least-privilege IAM roles ensure that credentials and files are never exposed publicly.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
