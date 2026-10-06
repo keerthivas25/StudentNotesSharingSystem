@@ -74,13 +74,16 @@ def upload_file_to_s3(file_obj, s3_key, content_type=None):
 
     try:
         file_obj.seek(0)
-        s3_client.upload_fileobj(
-            Fileobj=file_obj,
-            Bucket=bucket_name,
-            Key=s3_key,
-            ExtraArgs=extra_args if extra_args else None
-        )
-        file_obj.seek(0)
+        file_content = file_obj.read()
+        put_kwargs = {
+            'Bucket': bucket_name,
+            'Key': s3_key,
+            'Body': file_content
+        }
+        if content_type:
+            put_kwargs['ContentType'] = content_type
+
+        s3_client.put_object(**put_kwargs)
         return True
     except (ClientError, NoCredentialsError) as e:
         raise RuntimeError(f"Amazon S3 upload error: {str(e)}")
